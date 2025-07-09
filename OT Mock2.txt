@@ -1,0 +1,115 @@
+1) Create a PL/SQL procedure named cus_credit_update that takes a single input parameter: v_customer_id (the unique identifier of a customer).
+The procedure should update the customer's credit limit based on the total number of orders they have placed, according to the following rules:
+	i) 5 or more orders: Increase the customer's credit limit by 20%.
+	ii) Between 2 and 4 orders (inclusive): Increase the customer's credit limit by 10%.
+	iii) Exactly 1 order: Increase the customer's credit limit by 5%.
+	iv) 0 orders: Do not change the customer's existing credit limit. 
+In this case, raise a user-defined exception with the message "<Customer Name> never made an order so no credit limit update." 
+After a successful credit limit update, the procedure should display a message in the format: "<Customer Name> is updated with a credit limit of $<500>".
+
+
+create or replace PROCEDURE CUS_CREDIT_UPDATE(V_CUSTOMER_ID IN NUMBER)AS 
+v_order_id number;
+v_customer_name varchar2(90);
+v_credit_limit number;
+e_err exception;
+BEGIN
+  select c.name,c.credit_limit,count(order_id) into v_customer_name,v_credit_limit,v_order_id 
+  from customers c join orders o on c.customer_id=o.customer_id
+  where c.customer_id=v_customer_id
+  group by c.name,c.credit_limit;
+  
+  if v_order_id>5 then
+  v_credit_limit:=v_credit_limit+v_credit_limit*0.2;
+  dbms_output.put_line(v_customer_name || 'is updated with a credit limit of'|| v_credit_limit);
+  elsif v_order_id between 2 and 4 then
+  v_credit_limit:=v_credit_limit+v_credit_limit*0.1;
+  dbms_output.put_line(v_customer_name || 'is updated with a credit limit of'|| v_credit_limit);
+  elsif v_order_id=1 then
+  v_credit_limit:=v_credit_limit+v_credit_limit*0.5;
+  dbms_output.put_line(v_customer_name || 'is updated with a credit limit of'|| v_credit_limit);
+  elsif v_order_id=0 then
+  raise e_err;
+  end if;
+exception
+when e_err then
+dbms_output.put_line('v_customer_name' || 'never made an order so no credit limit update.');
+END CUS_CREDIT_UPDATE;
+
+
+2) Develop a PL/SQL procedure that takes a year (v_year IN) as an input parameter and determines the percentage of canceled orders for that year. The procedure should follow these rules:
+Procedure Logic:
+	i) Calculate the percentage of canceled orders within the given year 
+
+	ii) If orders exist but none were canceled, display: "No orders were canceled."
+
+	iii) If no orders exist for the given year, handle the exception and display: "No orders found for the year."
+
+	iv) If canceled orders exist, display the result as: "Order cancellation status is 7%."
+
+
+create or replace PROCEDURE PROCEDURE2(v_year IN NUMBER)
+AS
+    v_total_orders     NUMBER := 0;
+    v_canceled_orders  NUMBER := 0;
+    v_percentage       NUMBER := 0;
+BEGIN
+    SELECT COUNT(*) INTO v_total_orders
+    FROM orders
+    WHERE EXTRACT(YEAR FROM order_date) = v_year;
+
+    SELECT COUNT(*) INTO v_canceled_orders
+    FROM orders
+    WHERE EXTRACT(YEAR FROM order_date) = v_year
+    AND status = 'Canceled';
+    IF v_total_orders > 0 THEN
+        IF v_canceled_orders = 0 THEN
+            DBMS_OUTPUT.PUT_LINE('No orders were canceled.');
+        ELSE
+            v_percentage := (v_canceled_orders / v_total_orders) * 100;
+            DBMS_OUTPUT.PUT_LINE('Order cancellation status is ' || ROUND(v_percentage, 2) || '%.');
+        END IF;
+    END IF;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No orders found for the year.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An unexpected error occurred: ' || SQLERRM);
+END PROCEDURE2;
+
+
+
+3) Develop a PL/SQL function named get_business_contact that takes a single input parameter: customer_id (the unique identifier of a customer).
+
+The function should:
+	i) Retrieve the first name and last name of the business contact person associated with the given customer_id.
+	ii) Concatenate these names into a single string following a specific format: first_name last_name
+	iii) Assume there is a title associated with the contact person (e.g., 'Mr.', 'Ms.', 'Mrs.'). example "Mr/Mrs. Nancy Jones"
+	For example, if the title is 'Mr.', the first name is 'FLOR', and the last name is 'STONE', the function should return the string "Mr. FLOR STONE".
+	The function should then return this formatted string containing the customer's business contact person's full name with the title  in capital letter.
+
+CREATE OR REPLACE FUNCTION GET_BUSINESS_CONTACT(V_CUSTOMER_ID IN NUMBER )RETURN VARCHAR2 AS 
+v_fullname varchar2(250);
+BEGIN
+  select first_name||' '||last_name as full_name into v_fullname 
+  from contacts 
+  where customer_id=v_customer_id;
+  v_fullname:='Mr/Mrs'||' '||upper(v_fullname);
+  return v_fullname;
+END GET_BUSINESS_CONTACT;
+
+
+4) Write a PL/SQL program (specifically a function called warehouse_stock) that, when you give it a product's unique ID, will tell you where that product is stored and how many are currently in stock. The function should return this information as a single piece of text, like 'San Francisco-255', where 'San Francisco' is the warehouse name and '255' is the number of that product in stock there. 
+
+CREATE OR REPLACE FUNCTION WAREHOUSE_STOCK(V_PRODID IN NUMBER )RETURN VARCHAR2 AS 
+v_info varchar2(50);
+v_name varchar(30);
+v_qty number;
+BEGIN
+  select category_name into v_name from product_categories where
+  category_id=(select category_id from products where product_id=v_prodid);
+  select nvl(sum(quantity),0) into v_qty from inventories where product_id=v_prodid;
+  v_info:=v_name||v_qty;
+  RETURN v_info;
+END WAREHOUSE_STOCK;

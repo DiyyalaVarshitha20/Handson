@@ -1,0 +1,121 @@
+--------------------------------------SQL----------------------------------------------------
+1) Write an SQL query to display the salesmen along with their salesman_id and the total number of orders they made in the year 2017. The total number of orders should be displayed as No_Of_Orders. The results should be sorted in descending order based on No_Of_Orders.
+	
+
+select e.first_name as salesman_name,o.salesman_id,count(o.order_id) as N0_Of_Orders from orders o
+join employees e on o.salesman_id=e.employee_id
+where extract(year from order_date)=2017
+group by e.first_name,o.salesman_id
+order by N0_Of_Orders desc;
+
+
+2) Write an SQL query to display the orders with the following details: Order_id, order_date, customer_id, and salesman_id. The query should include orders that were placed from January 2, 2017, to the next 100 days and are currently in a pending status.
+
+select order_id,order_date,customer_id,salesman_id from orders  
+where order_date between date '2017-01-02' and date '2017-01-02'+100 and status='Pending'
+order by order_id;
+	
+3) Write an SQL query to display the details of orders that have been canceled. The query should include the order_id, customer_id, status, and order_date for each order. Additionally, the query should only include orders from customers who have had more than one order canceled.
+
+
+select order_id,customer_id,status,order_date from orders 
+where status='Canceled' and customer_id in
+(select customer_id from orders where status='Canceled' group by customer_id having count(*)>1);
+
+	
+4) Write an SQL query to display the details of products that belong to the 'Mother Board' category and have been ordered in quantities greater than 140. The query should include the product_id, product_name, standard_cost, and the quantity ordered. The results should be sorted in descending order based on the quantity ordered.
+
+
+SELECT 
+    p.product_id,
+    p.product_name,
+    p.standard_cost,
+    i.quantity
+FROM 
+    products p
+JOIN 
+    inventories i ON p.product_id = i.product_id
+WHERE 
+    p.category_id = (
+        SELECT category_id 
+        FROM product_categories 
+        WHERE category_name = 'Mother Board'
+    )
+    AND i.quantity > 140
+ORDER BY 
+    i.quantity DESC;
+
+	
+--------------------------------------PLSQL----------------------------------------------------
+
+1) Develop a PL/SQL procedure to identify products  where ordered for more than once and insert this records into product_info table with product_id,
+Number of Orders  and sum of that product item. The procedure should also print the number of record as "Number of record insert into product_info tables is  12"
+If no products meet the criteria, handle the user define exception "err_no_product" by printing a message printing a message indicating that no products
+had orders more than onces  as "No Product ordered more than once".
+Write the procedure with named product_order using the basic loop with cursor.
+Note: Create the table "Product_info" with Column as 
+	product_id(number): ProductId 
+	No_Of_Ordered(number): Number of ordered made by each product
+	Sum_of_Cost (number): sum of unit_price * quantity by each product
+
+
+CREATE OR REPLACE PROCEDURE OTACHEMAPROC AS 
+    cursor c_cur is select product_id,count(order_id) as no_of_ordered,
+    sum(unit_price* quantity) as sum_of_cost
+    from order_items
+    group by product_id;
+    having count(*)>1;
+c_rec c_cur%rowtype;
+v_count number:=0;
+err_no_product exception;
+BEGIN
+open c_cur;
+loop
+fetch c_cur into c_rec;
+exit when c_cur%notfound;
+    insert into product_info values(c_rec.product_id,c_rec.no_of_ordered,c_rec.sum_of_cost);
+    v_count:=v_count+1;
+end loop;
+    if v_count>0 then
+        dbms_output.put_line('Number of record insert into product_info tables is' || v_count);
+    else
+        raise err_no_product;
+    end if;
+    EXCEPTION
+    when no_data_found then
+        dbms_output.put_line('no data found');
+    when err_no_product then
+        dbms_output.put_line('No Product ordered more than once');
+END OTACHEMAPROC;
+
+
+2) Develop a PL/SQL function for the orders table that accepts a 
+salesman_id as input and returns the full name of the salesman in the 
+format "First_Name Last_Name". If the salesman_id is NULL, the function 
+should handle this exception and return the string "Walk-in Customers".
+
+
+CREATE OR REPLACE FUNCTION OTSCHEMA(SALESMAN_ID IN NUMBER)RETURN VARCHAR2 AS 
+v_fullname varchar2(50);
+e_err exception;
+v_str varchar2(90):='Walk-in Customers';
+BEGIN
+
+    if salesman_id is null then
+        return v_str;
+    else
+    begin
+      select max(e.first_name || ' ' ||e.last_name) into v_fullname
+      from orders o
+      join employees e on o.salesman_id = e.employee_id
+      where o.salesman_id = salesman_id;
+EXCEPTION
+    when e_err then
+        return v_str;
+    end;
+    return v_fullname;
+    end if;
+END OTSCHEMA;
+
+	
+
