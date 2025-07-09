@@ -1,0 +1,310 @@
+---------------------------4-6-25------------------------
+WITH product_profits AS (
+    SELECT 
+        p.product_id, 
+        p.product_name,
+        SUM((i.unit_price - p.standard_cost) * i.quantity) AS profit
+    FROM products p
+    JOIN order_items i ON p.product_id = i.product_id
+    JOIN orders o ON i.order_id = o.order_id
+    WHERE EXTRACT(YEAR FROM o.order_date) = 2017
+    GROUP BY p.product_id, p.product_name
+),
+total_profit_cte AS (
+    SELECT SUM(profit) AS total_profit FROM product_profits
+),
+final_output AS (
+    SELECT 
+        pp.product_id,
+        pp.product_name,
+        pp.profit,
+        tp.total_profit,
+        ROUND((pp.profit / tp.total_profit) * 100, 1) AS profit_percentage,
+        RANK() OVER (ORDER BY pp.profit DESC) AS rank_profit
+    FROM product_profits pp
+    CROSS JOIN total_profit_cte tp
+)
+SELECT *
+FROM final_output
+ORDER BY rank_profit;
+
+
+
+--------------------3-6-25------------------------------
+select 
+    to_char(o.order_date,'Month') as Month,
+    p.product_id,
+    p.product_name,
+    sum(case when extract(year from o.order_date)=2016 then quantity else 0 end) as Tot_qty_2016,
+    sum(case when extract(year from o.order_date)=2017 then quantity else 0 end) as Tot_qty_2017
+from orders o join order_items oi on o.order_id=oi.order_id
+join products p on oi.product_id=p.product_id
+where
+    extract (YEAR from order_date) in (2016,2017) 
+group by 
+    to_char(order_date,'Month'),
+    p.product_id,
+    p.product_name
+order by 
+    p.product_id;
+
+-----------------------2-6-25------------------------------
+
+select 
+        c.customer_id,
+        c.name as customer_name,
+        DENSE_RANK() OVER (order by count(o.order_id) desc) as most_valued_cust
+from customers c 
+join orders o on c.customer_id=o.customer_id
+where 
+     o.salesman_id is null and status='Shipped'
+group by
+     c.customer_id,c.name
+having
+     count(o.order_id)>=2;
+
+-------------------------------point of sales---------------------------------------
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+const int PRODUCT_COUNT = 10;
+
+int productIDs[PRODUCT_COUNT];
+string productNames[PRODUCT_COUNT];
+string productCategories[PRODUCT_COUNT];
+float unitPrices[PRODUCT_COUNT];
+
+int purchasedIDs[PRODUCT_COUNT];
+int purchasedQuantities[PRODUCT_COUNT];
+int purchaseCount = 0;
+float totalBeforeDiscount = 0.0;
+float discountAmount = 0.0;
+
+void initializeProducts();
+void displayProducts();
+void processBilling();
+float calculateTotal(int productID, int quantity);
+float applyDiscount(float totalAmount);
+void printBill();
+
+int main() {
+    initializeProducts();
+    displayProducts();
+    processBilling();
+    printBill();
+    return 0;
+}
+
+void initializeProducts() {
+    int ids[PRODUCT_COUNT] = {101, 102, 103, 104, 105, 106, 107, 108, 109, 110};
+    string names[PRODUCT_COUNT] = {"Rice", "Sugar", "Milk", "Bread", "Butter", "Eggs", "Soap", "Shampoo", "Oil", "Tea"};
+    string categories[PRODUCT_COUNT] = {"Grocery", "Grocery", "Dairy", "Bakery", "Dairy", "Poultry", "Toiletries", "Toiletries", "Grocery", "Beverages"};
+    float prices[PRODUCT_COUNT] = {60.0, 45.0, 30.0, 25.0, 50.0, 6.0, 20.0, 90.0, 120.0, 150.0};
+
+    for (int i = 0; i < PRODUCT_COUNT; i++) {
+        productIDs[i] = ids[i];
+        productNames[i] = names[i];
+        productCategories[i] = categories[i];
+        unitPrices[i] = prices[i];
+    }
+}
+
+
+void displayProducts() {
+    cout << "\nAvailable Products:\n";
+    cout << left << setw(10) << "ID" << setw(15) << "Name" << setw(15) << "Category" << setw(10) << "Price\n";
+    cout << "------------------------------------------------------\n";
+    for (int i = 0; i < PRODUCT_COUNT; i++) {
+        cout << left << setw(10) << productIDs[i]
+             << setw(15) << productNames[i]
+             << setw(15) << productCategories[i]
+             << "₹" << fixed << setprecision(2) << unitPrices[i] << endl;
+    }
+}
+
+
+void processBilling() {
+    char choice;
+    do {
+        int id, qty;
+        cout << "\nEnter Product ID: ";
+        cin >> id;
+        cout << "Enter Quantity: ";
+        cin >> qty;
+
+        float itemTotal = calculateTotal(id, qty);
+        totalBeforeDiscount += itemTotal;
+
+        purchasedIDs[purchaseCount] = id;
+        purchasedQuantities[purchaseCount] = qty;
+        purchaseCount++;
+
+        cout << "Add more items? (y/n): ";
+        cin >> choice;
+    } while (choice == 'y' || choice == 'Y');
+
+    discountAmount = applyDiscount(totalBeforeDiscount);
+}
+
+
+float calculateTotal(int productID, int quantity) {
+    for (int i = 0; i < PRODUCT_COUNT; i++) {
+        if (productIDs[i] == productID) {
+            return unitPrices[i] * quantity;
+        }
+    }
+    return 0.0;
+}
+
+
+float applyDiscount(float totalAmount) {
+    if (totalAmount > 5000)
+        return totalAmount * 0.15;
+    else if (totalAmount > 2000)
+        return totalAmount * 0.10;
+    else if (totalAmount > 1000)
+        return totalAmount * 0.05;
+    else
+        return 0.0;
+}
+
+
+void printBill() {
+    cout << "\n\n******** FINAL BILL ********\n";
+    cout << left << setw(10) << "ID" << setw(15) << "Name" << setw(10) << "Qty" << setw(10) << "Unit" << setw(10) << "Total\n";
+    cout << "------------------------------------------------------\n";
+
+    for (int i = 0; i < purchaseCount; i++) {
+        int id = purchasedIDs[i];
+        int qty = purchasedQuantities[i];
+        for (int j = 0; j < PRODUCT_COUNT; j++) {
+            if (productIDs[j] == id) {
+                float itemTotal = unitPrices[j] * qty;
+                cout << left << setw(10) << id
+                     << setw(15) << productNames[j]
+                     << setw(10) << qty
+                     << "₹" << setw(9) << unitPrices[j]
+                     << "₹" << fixed << setprecision(2) << itemTotal << endl;
+                break;
+            }
+        }
+    }
+
+    cout << "\nTotal Before Discount: ₹" << fixed << setprecision(2) << totalBeforeDiscount;
+    cout << "\nDiscount Applied: ₹" << discountAmount;
+    cout << "\nFinal Amount to Pay: ₹" << totalBeforeDiscount - discountAmount << endl;
+    cout << "*****************************\n";
+}
+
+
+--------------------------------atm------------------------------------
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+void checkConstraints(int amount) {
+    if (amount % 500 != 0) {
+        cout << "Transaction must be a multiple of 500" << endl;
+    }
+}
+
+bool checkAvailability(int amount, int totalAmount) {
+    if (totalAmount == 0) {
+        cout << "Currency not available for service" << endl;
+        return false;
+    }
+    if (amount > totalAmount) {
+        cout << "Insufficient Amount for transaction" << endl;
+        return false;
+    }
+    return true;
+}
+
+void dispense(int amount, int &totalAmount, int &notes500, int &notes200, int &notes100) {
+    int dispensed500 = 0, dispensed200 = 0, dispensed100 = 0;
+    int originalAmount = amount;
+
+    if (amount > 4000) {
+        dispensed500 = amount / 500;
+    } else if (amount >= 1000 && amount <= 4000) {
+        if (notes200 >= 2 && notes100 >= 1) {
+            dispensed200 = 2;
+            dispensed100 = 1;
+            amount -= 500;
+            dispensed500 = amount / 500;
+        } else if (notes100 == 0 && notes200 >= 5) {
+            dispensed200 = 5;
+            amount -= 1000;
+            dispensed500 = amount / 500;
+        } else if (notes200 == 0 && notes100 >= 5) {
+            dispensed100 = 5;
+            amount -= 500;
+            dispensed500 = amount / 500;
+        }
+    } else if (amount == 500) {
+        if (notes200 >= 2 && notes100 >= 1) {
+            dispensed200 = 2;
+            dispensed100 = 1;
+        } else if (notes100 == 0 && notes500 >= 1) {
+            dispensed500 = 1;
+        } else if (notes200 == 0 && notes100 >= 5) {
+            dispensed100 = 5;
+        }
+    }
+
+    if (dispensed500 > notes500 || dispensed200 > notes200 || dispensed100 > notes100) {
+        cout << "Insufficient Amount - Limited to 2000" << endl;
+        return;
+    }
+
+    notes500 -= dispensed500;
+    notes200 -= dispensed200;
+    notes100 -= dispensed100;
+    totalAmount -= (dispensed500 * 500 + dispensed200 * 200 + dispensed100 * 100);
+
+    if (dispensed500 > 0) cout << "500's note currency: " << dispensed500 << endl;
+    if (dispensed200 > 0) cout << "200's note currency: " << dispensed200 << endl;
+    if (dispensed100 > 0) cout << "100's note currency: " << dispensed100 << endl;
+}
+
+int main() {
+    int totalAmount = 80000;
+    int notes500 = 100;
+    int notes200 = 100;
+    int notes100 = 100;
+    string input;
+
+    while (true) {
+        cout << "\nEnter the Amount (or type 'quit' to exit): ";
+        cin >> input;
+
+        if (input == "quit" || input == "QUIT") {
+            cout << "Thank you for using the ATM!" << endl;
+            break;
+        }
+
+        int amount;
+        try {
+            amount = stoi(input);
+        } catch (...) {
+            cout << "Invalid input. Please enter a valid amount or 'quit'." << endl;
+            continue;
+        }
+
+        if (amount % 500 != 0) {
+            checkConstraints(amount);
+            continue;
+        }
+
+        if (!checkAvailability(amount, totalAmount)) {
+            continue;
+        }
+
+        dispense(amount, totalAmount, notes500, notes200, notes100);
+    }
+
+    return 0;
+}
