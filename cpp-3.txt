@@ -1,0 +1,796 @@
+22)Leap Year
+--------------- 
+Write a program to find whether the given input year is a Leap Year.
+ 
+Include a function named checkLeapYear that accepts an integer and returns an integer. The function returns
+1.	1 if the input is a Leap Year
+2.	0 if the input is not a Leap Year
+3.	-1 if the input is a negative number
+ 
+Print Invalid Input if the function returns -1.
+ 
+Input and Output Format:
+``````````````````````````
+Input consists of a single integer.
+Refer sample output for formatting specifications.
+ 
+ 
+Sample Input 1:
+````````````````
+2000
+ 
+Sample Output 1:
+`````````````````
+yes
+ 
+Sample Input 2:
+`````````````````
+1610
+ 
+Sample Output 2:
+`````````````````
+no
+ 
+Sample Input 3:
+````````````````
+-2345
+ 
+Sample Output 3:
+```````````````````
+Invalid Input
+
+A)#include<iostream>
+using namespace std;
+int checkleapyear(int year){
+    if(year<0){
+        cout<<"Invalid input"<<"\n";
+    }
+    else if((year%4==0 && year%100!=0) || (year%400==0)){
+        return 1;
+    }
+    else {
+        return 0;
+    }
+    return -1;
+}
+int main(){
+    int year;
+    cout<<"Enter year"<<"\n";
+    cin>>year;
+    int res=checkleapyear(year);
+    if(res==1){
+        cout<<"Yes"<<"\n";
+    }
+    else if(res==0){
+        cout<<"no"<<"\n";
+    }
+    
+}
+
+
+23)secondLargest
+------------------
+Read the question carefully and follow the input and output format.
+
+Write a function to find second largest number in the given input integer array.
+
+Assume that all elements in the input array are unique.
+
+Input and Output Format :
+```````````````````````````
+
+First line of input consists of n, the number of elements. Next n lines correspond to the array elements.
+Output consist of an integer, which is the second largest.
+
+1) Print "Invalid array size" when size of the array is a negative number and terminate the program.
+2) Print "Invalid input" when there is any negative number available in the input array and terminate the program.
+
+Include a function named secondLargest(int array[], int size) whose return type is an integer, the second largest.
+
+Sample Input 1:
+````````````````
+5
+3
+342
+53
+2
+12
+
+Sample Output 1:
+``````````````````
+53
+
+Sample Input 2:
+````````````````
+5
+3
+342
+53
+-2
+
+
+Sample Output 2:
+`````````````````
+Invalid input
+
+A)#include <iostream>
+using namespace std;
+int secondlargest(int arr[],int size){
+    int max=0;
+    for(int i=0;i<size;i++){
+        for(int j=1;j<i+1;j++){
+            if(arr[i]<arr[j]){
+                max=arr[j];
+            }
+        }
+    }
+    return max;
+}
+int main(){
+    int arr[20],n;
+    cout<<"enter size:"<<"\n";
+    cin>>n;
+    if(n<0){
+        cout<<"invalid input"<<"\n";
+    }
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+        if(arr[i]<0){
+            cout<<"Invalid input"<<"\n";
+        }
+    }
+    int res=secondlargest(arr,n);
+    cout<<res<<"\n";
+}
+
+24)findFirstLargest
+----------------------
+Read the question carefully and follow the input and output format.
+
+Write a function to find the product of the first and the third largest numbers in the given input integer array.
+
+Input and Output Format :
+First line of input corresponds to n, the size of array and next n lines correspond to the elements of the array
+
+Print "Invalid array size" when size of the array is a negative number and terminate the program
+Print "Invalid number" when there is any negative numbers available in the input array and terminate the program.
+
+Include a function named findFirstLargest(int n, int array[]) that returns an integer, product of first and third largest numbers.
+
+Sample Input 1:
+````````````````
+5
+11
+241
+83
+8
+2
+
+Sample Output 1:
+`````````````````
+2651
+
+Sample Input 2:
+````````````````
+3
+83
+-8
+Sample Output 2:
+`````````````````
+Invalid number
+
+
+A)#include <iostream>
+#include <algorithm>
+using namespace std;
+int findfirstlargest(int n,int arr[]){
+    if(n<0){
+        cout<<"Invalid array size"<<"\n";
+    }
+    for(int i=0;i<n;i++){
+        if(arr[i]<0){
+            cout<<"Invalid number"<<"\n";
+        }
+    }
+    sort(arr,arr+n);
+    return arr[n-1]*arr[n-3];
+}
+int main() {
+    int n,arr[20];
+    cout<<"Enter size:"<<"\n";
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    int res=findfirstlargest(n,arr);
+    cout<<res;
+}
+
+25)generateCode
+-----------------
+Read the question carefully and follow the input and output format.
+
+In a game show everybody got one coupon with some code. They need to generate a code with only even numbers in that coupon. Find the answer.
+
+Input and Output Format :
+``````````````````````````
+Input consists of  an integer. Output consist of an integer, which is the generated code.
+
+1) Print "Number too small" when the given input number is a negative number.
+2) Print "Number too large" when the given input number is greater than 32767.
+3) Print 0 If the coupon does not contain any even numbers.
+
+Include a function named generateCode(int coupon) whose return type is an integer, which is the generated code.
+
+Sample Input 1:
+```````````````
+4352
+
+Sample Output 1:
+`````````````````
+42
+
+Sample Input 2:
+```````````````
+1357
+
+Sample Output 2:
+````````````````
+0
+
+Sample Input 3:
+````````````````
+-1357
+
+Sample Output 3:
+````````````````
+Number too small
+
+A)#include <iostream>
+#include <algorithm>
+using namespace std;
+int generatecode(int coupon){
+    if(coupon<0){
+        cout<<"Number too small"<<"\n";
+    }
+    if(coupon>32767){
+        cout<<"number too large"<<"\n";
+    }
+    string newnumber="";
+    while(coupon>0){
+        int digit=coupon%10;
+        if(digit%2==0){
+            newnumber+=to_string(digit);
+        }
+        coupon/=10;
+    }
+    if(newnumber.empty()){
+        return 0;
+    }
+    reverse(newnumber.begin(), newnumber.end());
+    return stoi(newnumber);
+}
+int main(){
+    int coupon;
+    cout<<"Enter coupon"<<"\n";
+    cin>>coupon;
+    int res=generatecode(coupon);
+    cout<<res;
+}
+
+
+
+26)calculateBonus
+-------------------
+Read the question carefully and follow the input and output format.
+
+Given the basic salary as input, write a program to calculate the bonus and display it.
+
+The bonus will be calculated based on the below category.
+Basic>20000 bonus=17%of basic+1500
+Basic>15000 bonus=15%of basic+1200
+Basic>10000 bonus=12%of basic+1000
+for rest =8%of basic+500
+
+Input and Output Format :
+```````````````````````````
+First line of input consists of n, the basic salary.
+Output is a single integer that displays the bonus.
+
+Print "Number too large" when the given input numbers is greater than 32767 .
+Print "Number too small" when the given input is a negative number.
+
+Include a function named calculateBonus(int basic) whose return type is an integer, the bonus.
+
+Sample Input 1:
+````````````````
+21000
+
+Sample Output 1:
+````````````````
+5070
+
+Sample Input 2:
+`````````````````
+327678
+Sample Output 2:
+````````````````
+Number too large
+
+
+A)#include <iostream>
+using namespace std;
+int calculatebonus(int basic){
+    if(basic>32767){
+        cout<<"Number too large"<<"\n";
+        return 0;
+    }
+    if(basic<0){
+        cout<<"number too small"<<"\n";
+        return 0;
+    }
+    int bonus;
+    if(basic>10000 && basic<=15000){
+        bonus=0.12*basic+1000;
+    }
+    if(basic>15000 && basic<=20000){
+        bonus=0.15*basic+1200;
+    }
+    if(basic>20000){
+        bonus=0.17*basic+1500;
+    }
+    return bonus;
+}
+int main(){
+    int basic;
+    cout<<"Enter basic:"<<"\n";
+    cin>>basic;
+    int res=calculatebonus(basic);
+    cout<<res;
+}
+
+
+
+27.Minimum of 3
+-----------------
+Imagine you are a software developer working for a logistics company. Your task is to create a program that helps the company determine the shortest delivery time among three different routes. Each route has a different estimated delivery time in hours. Your program needs to find the minimum delivery time to ensure the fastest delivery for the customers.
+
+Write a program to find the minimum of 3 delivery times.
+
+Include a function named findSmallest that accepts 3 integer arguments representing the delivery times of the three routes and returns an integer that corresponds to the minimum delivery time. 
+ 
+Input and Output Format:
+`````````````````````````
+Input consists of 3 integers.
+Output consists of an integer.
+Refer sample output for formatting specifications.
+ 
+ 
+Sample Input 1:
+````````````````
+4
+12
+3
+ 
+Sample Output 1:
+````````````````
+3
+
+A)#include <iostream>
+using namespace std;
+int findsmallest(int arr[],int n){
+    int min=arr[0];
+    for(int i=0;i<n;i++){
+            if(arr[i]<min){
+                min=arr[i];
+            }
+    }
+    return min;
+}
+int main(){
+    int arr[3],n;
+    cout<<"enter size of array:"<<"\n";
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    int res=findsmallest(arr,n);
+    cout<<res;
+}
+
+28)28.Sort and Delete
+--------------------
+ 
+Write a program to delete the given number in the input array and then to sort the array.
+ 
+Include a function named sortAndDelete that accepts 3 arguments and its return type is void. The first argument is  the input array and the second argument is an int that corresponds to the size of the array and the third argument is the array element to be deleted. The number of elements in the modified array is stored in the global variable named output1.
+ 
+If the size of the array is negative or if any of the elements in the array are negative , print “Invalid Input” and terminate the program.
+ 
+Please note that the elements in the array may not be unique.
+ 
+Input and Output Format:
+```````````````````````````
+Input consists of n+2 integers. The first integer corresponds to n, the number of elements in the array. The next 'n' integers correspond to the elements in the array. The last integer corresponds to the element to be deleted.
+Output consists of an integer array.
+Refer sample output for formatting specifications.
+ 
+Assume that the maximum number of elements in the array is 20.
+ 
+Sample Input 1:
+`````````````````
+8
+1
+6
+3
+5
+8
+10
+4
+8
+8
+ 
+Sample Output 1:
+```````````````````
+1
+3
+4
+5
+6
+10
+ 
+Sample Input 2:
+````````````````
+-5
+ 
+Sample Output 2:
+````````````````
+Invalid Input
+
+A)#include <iostream>
+#include <algorithm>
+using namespace std;
+ 
+int output1 = 0;
+ 
+void sortAndDelete(int arr[], int size, int delnum) {
+    if (size < 0) {
+        cout << "Invalid Input" << endl;
+        exit(0);
+    }
+ 
+    int temp[20], j = 0;
+ 
+    for (int i = 0; i < size; i++) {
+        if (arr[i] < 0) {
+            cout << "Invalid Input" << endl;
+            exit(0);
+        }
+        if (arr[i] != delnum) {
+            temp[j++] = arr[i];
+        }
+    }
+ 
+    sort(temp, temp + j);
+    output1 = j;
+ 
+    for (int i = 0; i < output1; i++) {
+        cout << temp[i] << endl;
+    }
+}
+ 
+int main() {
+    int n;
+    int arr[20]; 
+    intdelnum;
+ 
+    cin >> n;
+    if (n < 0) {
+        cout << "Invalid Input" << endl;
+        return 0;
+    }
+ 
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+ 
+    cin >> delnum;
+ 
+    sortAndDelete(arr, n, delnum);
+ 
+    return 0;
+}
+
+
+29.generateNewNumber
+----------------------
+ 
+Read the question carefully and follow the input and output format.
+
+Write a program to generate new number from the given input based on following conditions.
+
+(i) Even digit should be replaced by next Even digit.
+(ii) Odd digit should be replaced with next Odd digit
+
+Input and Output Format :
+````````````````````````
+Input consists of an integer. Output is also an integer.
+
+1) Print "Number too small" when any of given input numbers is a negative number.
+2) Print "Number too large" when any of given input numbers is greater than 32767.
+
+Include a function named generateNewNumber(int number) whose return type is an integer, which is the replaced number.
+
+Sample Input 1:
+````````````````
+123
+
+Sample Output 1:
+````````````````
+345
+
+Sample Input 2:
+```````````````
+32768
+
+Sample Output 2:
+`````````````````
+Number too large
+
+
+A)#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int generatenewnumber(int number) {
+    if (number < 0) {
+        cout << "Number too small" << "\n";
+        return -1;
+    }
+    if (number > 32767) {
+        cout << "Number too large" << "\n";
+        return -1;
+    }
+
+    string new_number = "";
+    while (number > 0) {
+        int digit = number % 10;
+        int new_digit = digit + 2;
+        new_number += to_string(new_digit);
+        number /= 10;
+    }
+
+    reverse(new_number.begin(), new_number.end());
+
+    return stoi(new_number);
+}
+
+int main() {
+    int number;
+    cin >> number;
+    int newnum = generatenewnumber(number);
+    return 0;
+}
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+30.findMileage
+
+Read the question carefully and follow the input and output format.
+
+Given the cubic capacity(CC) of a bike. Write a function to return the mileage/liter for the given Cubic Capacity(CC). The mileage will be calculated as follows:
+
+if CC is between 100 and 125, mileage is 75
+if CC is between 126 and 135, mileage is 70
+if CC is between 136 and 150, mileage is 60
+if CC is between 151 and 200, mileage is 50
+if CC is between 201 and 220, mileage is 35
+
+First line of input consists of an integer that corresponds to CC of a bike. Output consist of an integer, which is the mileage.
+
+Print "Number too large" when the given input CC is greater than 220.
+Print "Number too small" when the given input CC is less than 100.
+
+Include a function named findMileage(int cc) whose return type is an integer, which is the mileage.
+
+Sample Input 1:
+````````````````
+1
+
+Sample Output 1:
+`````````````````
+Number too small
+
+Sample Input 2:
+````````````````
+160
+
+Sample Output 2:
+`````````````````
+50
+
+A)#include <iostream>
+using namespace std;
+
+int findMileage(int cc) {
+    if (cc < 100) {
+        cout << "Number too small" << endl;
+        return 0;
+    }
+    if (cc > 220) {
+        cout << "Number too large" << endl;
+        return 0;
+    }
+
+    if (cc >= 100 && cc <= 125) {
+        return 75;
+    } else if (cc >= 126 && cc <= 135) {
+        return 70;
+    } else if (cc >= 136 && cc <= 150) {
+        return 60;
+    } else if (cc >= 151 && cc <= 200) {
+        return 50;
+    } else if (cc >= 201 && cc <= 220) {
+        return 35;
+    }
+
+    return 0;
+}
+
+int main() {
+    int cc;
+    cin >> cc;
+    int mileage = findMileage(cc);
+    cout << mileage << endl;
+    return 0;
+}
+
+
+21)21.Sum of Prime Numbers
+-------------------------
+ 
+Write a program to find the sum of the prime numbers present in the given input array.
+ 
+Include a function named sumPrime that accepts 2 arguments and returns an int. The first argument is a pointer to the input array and the second argument is an int that corresponds to the size of the array. The function returns the sum of the prime numbers in the input array.
+ 
+If the size of the array is negative or if any element in the array is negative, print “Invalid Input” and terminate the program.
+ 
+Please note that 1 is neither prime nor composite.
+ 
+Input and Output Format:
+`````````````````````````
+Input consists of n+1 integers. The first integer corresponds to n, the number of elements in the array. The next 'n' integers correspond to the elements in the array.
+Output consists of an integer.
+ 
+Refer sample output for formatting specifications.
+ 
+Assume that the maximum number of elements in the array is 20.
+ 
+Sample Input 1:
+`````````````````
+5
+2
+4
+8
+9
+11
+ 
+Sample Output 1:
+``````````````````
+13
+ 
+Sample Input 2:
+````````````````
+-5
+ 
+Sample Output 2:
+````````````````
+Invalid Input
+ 
+Sample Input 3:
+````````````````
+5
+23
+2
+-200
+ 
+Sample Output 3:
+`````````````````
+Invalid Input
+
+A)#include <iostream>
+
+using namespace std;
+ 
+int sumPrime(int *pntarr, int size) {
+
+    if (size < 0) {
+
+        cout << "Invalid input" << endl;
+
+        return 0;
+
+    }
+ 
+    for (int i = 0; i < size; i++) {
+
+        if (*(pntarr + i) < 0) {
+
+            cout << "Invalid Input" << endl;
+
+            return 0;
+
+        }
+
+    }
+ 
+    int sum = 0;
+
+    for (int i = 0; i < size; i++) {
+
+        int num = *(pntarr + i);
+
+        if (num <= 1) continue;
+ 
+        int j;
+
+        for (j = 2; j < num; j++) {
+
+            if (num % j == 0) {
+
+                break;
+
+            }
+
+        }
+ 
+        if (j == num) {
+
+            sum += num;
+
+        }
+
+    }
+ 
+    return sum;
+
+}
+ 
+int main() {
+
+    int size;
+
+    cout << "Enter the size of the array: ";
+
+    cin >> size;
+ 
+    if (size <= 0 || size > 20) {
+
+        cout << "Invalid size. Must be between 1 and 20." << endl;
+
+        return 1;
+
+    }
+ 
+    int arr[20];
+
+    cout << "Enter " << size << " elements:" << endl;
+
+    for (int i = 0; i < size; i++) {
+
+        cin >> arr[i]; 
+
+    }
+ 
+    int res = sumPrime(arr, size);
+
+    cout << "Sum of prime numbers: " << res << endl;
+ 
+    return 0;
+
+}
+
+ 
+
+ 

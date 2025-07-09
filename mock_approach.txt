@@ -1,0 +1,117 @@
+1) Diplay the order with  the order number, order date, customer number, and the day of the week for all orders placed on a Saturday or Sunday during the year 2017.
+				(OR)
+Write the SQL query that display 
+We need a report showing specific details of customer orders placed in the year 2017 that fell on a weekend (either Saturday or Sunday). The report should include the following information for each qualifying order:
+Order ID: A unique identifier for the order.
+Order Date: The date when the order was placed.
+Customer ID: The identifier of the customer who placed the order.
+Day of Order: The specific day of the week (e.g., Saturday, Sunday) on which the order was placed.
+
+select order_id ,order_date,customer_id, 
+to_char(order_date,'DAY') as day_of_week
+from orders;
+where order_date like '%17' and to_char(order_date,'DY') in ('SUN','SAT');
+
+
+
+2) Customer Order Tracking system must display order details including Order ID, Order Date, Shipped Date, and Feedback Date for each customer order. The Feedback Date is determined through a two-step calculation:
+Shipped Date Calculation:
+	Each order is shipped 10 days after the Order Date.
+Feedback Date Calculation:
+	Once an order’s status is marked as "shipped", the Feedback Date is set to one month after the Shipped Date.
+
+The output should present all orders along with their Order ID, Order Date, Shipped Date, and Feedback Date only for the order's status is shipped.
+
+
+select order_id,order_date,order_date+10 as shipped_date,add_months(order_date+10,1) as feedback_date
+from orders
+where status='Shipped';
+
+
+
+3) Display the Order ID and corresponding Customer ID for all orders placed in the year 2017 that contain more than 5 individual items.
+
+select order_id,customer_id from orders where order_date like '%17' and
+order_id in (select order_id from order_items group by order_id having count(order_id)>5)
+order by order_id;
+
+
+------------------------------------------------PLSQL------------------------------------------------------------
+1) Create a PL/SQL procedure that updates the list_price of products based on the following conditions:
+ If the difference between a product's standard_cost and its list_price is greater than $500, then apply a 10% discount to the list_price
+for products belonging to category_id equal to 1, if difference is not greater than $500 than apply a 4% discount to their list_price. 
+find the product catergory name and display number record update as 
+Output 1 : 
+	 "Number of Products update in category of CPU is 10
+
+Output 2 : 
+	"No update made for the category of CPU" (NOTE : OT SCHEMA)
+
+
+CREATE OR REPLACE PROCEDURE PROC1 AS 
+cursor c_upd is SELECT * from pros where category_id=1;
+r_rec c_upd%rowtype;
+v_diff number;
+v_count number:=0;
+
+BEGIN
+open c_upd;
+  loop
+  fetch c_upd into r_rec;
+  exit when c_upd%notfound;
+  v_diff:=r_rec.standard_cost-r_rec.list_price;
+  if v_diff>500 then
+  update pros set list_price=list_price*0.9 where product_id=r_rec.product_id;
+  else
+  update pros set list_price=list_price*0.96 where product_id=r_rec.product_id;
+  end if; 
+  v_count:=v_count+1;
+  end loop;
+  if v_count>0 then
+  dbms_output.put_line('number of records updated in category of' || r_rec.category_name || 'is' || v_count);
+  else
+  dbms_output.put_line('no record found');
+  end if;
+close c_upd;
+END PROC1;
+
+
+2) Develop a PL/SQL function that determines an employee's salary type based on their commission percentage (commission_pct):
+	a) If the commission_pct is NOT NULL, the function should return 'Salaried + Bonus'.
+
+	b) If an employee’s commission_pct is NULL, an exception should be handled to return 'Salaried' instead.(NOTE :- HR SCHEMA)
+
+
+
+create or replace function func (comm in number) return varchar2 as 
+v_str varchar2(50);
+v_str1 EXCEPTION;
+begin
+ 
+    if comm is not null then 
+        v_str := 'Salaried + Bonus';
+    elsif comm is null then
+        raise v_str1;
+    end if;
+ 
+    return v_str;
+    EXCEPTION
+    when no_data_found then  RETURN NULL; 
+    when v_str1 then  RETURN 'Salaried'; 
+end;
+
+
+3) Create a PL/SQL function named calculate_total_order_amount that accepts a single input parameter: order_id (the unique identifier of an order).
+The function should perform the following calculation:
+	i) For the given order_id, retrieve all the individual items associated with that order.
+	ii) For each item, multiply its quantity by its unit price.
+	iii) Calculate the sum of these individual item amounts to determine the total amount for the entire order.
+	iv) The function should then return this calculated total order amount as its output. (NOTE : OT SCHEMA)
+
+
+CREATE OR REPLACE FUNCTION FUNCTION1(ORDER_ID IN NUMBER)RETURN NUMBER AS
+v_total_amount number;
+BEGIN
+  select sum(quantity*unit_price) into v_total_amount from order_items where order_id=order_id;
+  return v_total_amount;
+END FUNCTION1;

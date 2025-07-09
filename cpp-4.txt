@@ -1,0 +1,1107 @@
+1) Design and implement a C++ class named Person. This class must adhere to the principles of encapsulation by having the following private member variables:
+
+name: A string to store the person's name.
+
+age: An integer to store the person's age.
+
+country: A string to store the person's country of residence.
+
+The Person class should provide public member functions (accessor and mutator methods, also known as getters and setters) to interact with these private member variables:
+
+Mutator (Setter) Methods:
+
+setName(std::string name): Sets the name member variable.
+
+setAge(int age): Sets the age member variable.
+
+setCountry(std::string country): Sets the country member variable.
+
+Accessor (Getter) Methods:
+
+getName() const: Returns the value of the name member variable.
+
+getAge() const: Returns the value of the age member variable.
+
+getCountry() const: Returns the value of the country member variable.
+
+The main function of the program should:
+
+Create an object of the Person class.Use the setter methods to assign values to the name, age, and country member variables of the object.Use the getter methods to retrieve the values of the name, age, and country member variables of the object. Print the retrieved values to standard output (std::cout).
+
+
+A)#include <iostream>
+using namespace std;
+class person{
+    private:
+        string name;
+        int age;
+        string country;
+    public:
+        void setname(string n){
+            name=n;
+        }
+        void setage(int a){
+            age=a;
+        }
+        void setcountry(string c){
+            country=c;
+        }
+        string getname(){
+            return name;
+        }
+        string getcountry(){
+            return country;
+        }
+        int getage(){
+            return age;
+        }
+};
+int main(){
+    person p;
+    p.setname("varshitha");
+    p.setage(21);
+    p.setcountry("india");
+    cout<<"name:"<<p.getname()<<"\n";
+    cout<<"age:"<<p.getage()<<"\n";
+    cout<<"country:"<<p.getcountry()<<"\n";
+}
+
+
+2)Write a C++ program to create a class called Car with the following specifications:
+
+Private Member Variables:
+
+company: A string representing the company name.
+
+model: A string representing the model name.
+
+year: An integer representing the year of manufacture.
+
+Default Constructor:
+
+Implement a default constructor that initializes the year to 2025.
+
+Member Functions:
+
+Implement member functions to set the values of company, model, and year.
+
+Implement member functions to get the values of company, model, and year during runtime.
+
+
+A)#include <iostream>
+using namespace std;
+class car{
+    private:
+        string company;
+        string model;
+        int year;
+    public:
+        car(){
+            company = "";
+            model = "";
+            year = 2025;
+    }
+
+        void setcompany(string c){
+            company=c;
+        }
+        void setmodel(string m){
+            model=m;
+        }
+        void setyear(int y){
+            year=y;
+        }
+        string getcompany(){
+            return company;
+        }
+        string getmodel(){
+            return model;
+        }
+        int getyear(){
+            return year;
+        }
+};
+int main(){
+    string company;
+    string model;
+    int year;
+    car cm;
+    //cm.setcompany(company);
+    cout<<"enter company:"<<"\n";
+    cout<<"enter model:"<<"\n";
+    cin>>company;
+    cin>>model;
+    cm.setcompany(company);
+    cm.setmodel(model);
+    cout<<"Company name is:"<<cm.getcompany()<<"\n";
+    cout<<"model name is:"<<cm.getmodel()<<"\n";
+    cout<<"year is:"<<cm.getyear();
+    
+}
+
+
+3) Design and implement a C++ class named BankAccount. This class must adhere to the principles of encapsulation by having the following private member variables:
+
+· accountNumber: An integer to store the account number.
+
+· balance: A double to store the account balance.
+
+The BankAccount class should provide public member functions to perform basic bank account operations:
+
+· deposit(double amount): This method should accept a double representing the amount to deposit. If the amount is positive, it should add the amount to the balance and provide an appropriate message to the console. If the amount is negative, it should provide an error message to the console.
+
+· withdraw(double amount): This method should accept a double representing the amount to withdraw. If the amount is positive and less than or equal to the current balance, it should subtract the amount from the balance and provide an appropriate message to the console. If the amount is negative or greater than the balance, it should provide an error message to the console.
+
+· getBalance() const: this method should return the current balance of the account.
+
+· getAccountNumber() const: this method should return the current account number.
+
+The main function of the program should:
+
+· Create an object of the BankAccount class.
+
+· Use the deposit and withdraw methods to simulate transactions on the account.
+
+· Use the getBalance and getAccountNumber methods to display the account balance and account number.
+
+
+A)#include <iostream>
+using namespace std;
+
+class BankAccount {
+private:
+    int accountNumber;
+    double balance;
+
+public:
+    
+    BankAccount() {
+        accountNumber = 0;
+        balance = 0.0;
+    }
+
+   
+    BankAccount(int accNum, double initial_balance) {
+        accountNumber = accNum;
+        balance = (initial_balance > 0) ? initial_balance : 0.0;
+    }
+
+   
+    void setAccountNumber(int accNum) {
+        accountNumber = accNum;
+    }
+
+   
+    double getBalance() const {
+        return balance;
+    }
+
+    int getAccountNumber() const {
+        return accountNumber;
+    }
+
+   
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            cout << "Deposited: " << amount << ", New Balance: " << balance << endl;
+        } else {
+            cout << "Error: Deposit amount must be positive." << endl;
+        }
+    }
+
+    void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            cout << "Withdrawn: " << amount << ", Remaining Balance: " << balance << endl;
+        } else {
+            cout << "Error: Invalid withdrawal amount." << endl;
+        }
+    }
+};
+
+int main() {
+    BankAccount b;
+    int accountNumber;
+    double initialBalance, amount;
+
+    cout << "Enter account number: ";
+    cin >> accountNumber;
+    b.setAccountNumber(accountNumber);
+
+    cout << "Enter initial balance: ";
+    cin >> initialBalance;
+    b.deposit(initialBalance);  // Use deposit to initialize balance
+
+    cout << "Enter amount to deposit: ";
+    cin >> amount;
+    b.deposit(amount);
+
+    cout << "Enter amount to withdraw: ";
+    cin >> amount;
+    b.withdraw(amount);
+
+    cout << "Final Account Number: " << b.getAccountNumber() << endl;
+    cout << "Final Balance: " << b.getBalance() << endl;
+
+    return 0;
+}
+
+
+4)Design and implement a C++ class named Employee. This class must adhere to the principles of encapsulation by having the following private member variables:
+
+· name: A string to store the employee's name.
+
+· employeeId: An integer to store the employee's ID.
+
+· salary: A double to store the employee's base salary.
+
+The Employee class must include a constructor that initializes the name, employeeId, and salary member variables with the provided details:
+
+The Employee class should provide a public member function named calculateSalary:
+
+· calculateSalary(double performanceRating):
+
+o This method accepts a double representing the employee's performance rating (ranging from 1.0 to 5.0).
+
+o It calculates a bonus amount based on the performanceRating according to the following rules:
+
+§ If performanceRating is in the range [3.0, 4.0), the bonus is $1000.
+
+§ If performanceRating is in the range [4.0, 4.5), the bonus is $2000.
+
+§ If performanceRating is in the range [4.5, 5.0], the bonus is $3000.
+
+§ If the performanceRating is outside the range of 3 to 5, the bonus is $0.
+
+o It calculates the total salary by adding the bonus to the base salary.
+
+o It prints the bonus amount and the total salary to standard output (std::cout) in the following format:
+
+The main function of the program should:
+
+· Prompt the user to enter the employee's name, ID, base salary, and performance rating.
+
+· Create an object of the Employee class using the provided details.
+
+· Call the calculateSalary method using the created object, passing the performance rating as an argument.
+
+Example Input/Output:
+
+Input:
+
+Enter employee name: Peter
+
+Enter employee ID: 120
+
+Enter employee salary: 6500
+
+Enter performance rating (1.0 - 5.0): 3.5
+
+Output:
+
+Bonus: 1000
+
+Total salary: 7500
+
+
+A)#include <iostream>
+using namespace std;
+class employee{
+    private:
+        string name;
+        int employeeid;
+        double salary;
+    public:
+        employee(string empname,int emp_id,double basesalary ){
+            name=empname;
+            employeeid=emp_id;
+            salary=basesalary;
+        }
+        void calculatesalary(double perrating){
+            double bonus=0.0;
+            if(perrating>=3.0 && perrating<4.0){
+                bonus=1000;
+            }
+            else if(perrating>=4.0 && perrating<4.5){
+                bonus=2000;
+            }
+            else if(perrating>=4.5 && perrating<5.0){
+                bonus=3000;
+            }
+            else{
+                bonus=0;
+            }
+            double totalsalary=salary+bonus;
+            cout<<"Bonus:"<<bonus<<"\n";
+            cout<<"Total salary:"<<totalsalary<<"\n";
+            
+        }
+};
+int main(){
+    string name;
+    int id;
+    double basesalary,rating;
+    cout<<"Enter empname:"<<"\n";
+    cin>>name;
+    
+    cout<<"Enter emp_id:"<<"\n";
+    cin>>id;
+    
+    cout<<"Enter emp_salary:"<<"\n";
+    cin>>basesalary;
+    
+    cout<<"Enter perrating(1.0-5.0):"<<"\n";
+    cin>>rating;
+    
+    employee e(name,id,basesalary);
+    e.calculatesalary(rating);
+}
+
+5)Write a C++ program to implement a class called Student with the following specifications:
+
+Private Member Variables:
+
+· name: A string representing the student's name.
+
+· class: A string representing the student's class.
+
+· rollNumber: An integer representing the student's roll number.
+
+· marks: An integer representing the student's marks.
+
+Member Functions:-defining member functions outside the class scope.
+
+· Implement a member function that set the value for the member variable
+
+· Implement a member function to calculate the grade based on the marks:
+
+If marks >= 90, the grade is A+.
+
+If marks >= 80, the grade is A.
+
+If marks >= 70, the grade is B.
+
+If marks >= 60, the grade is C. else the grade is D.
+
+· Implement a member function to display the student's information, including name, Degree, roll number, marks, and calculated grade.
+
+Sample Input/Output:-
+
+Student details:
+
+Name: Nancy Jack
+
+Degree: B.tech
+
+Roll number: 10020
+
+Marks (0-100): 98
+
+
+Output:-
+
+Name: Nancy Jack
+
+Degree : B.tech
+
+Roll Number: 10020
+
+Marks: 98
+
+Grade: A+
+
+
+A)#include <iostream>
+#include <string>
+using namespace std;
+class Student {
+private:
+    string name;
+    string degree;
+    int rollNumber;
+    int marks;
+public:
+    void setDetails(string n, string d, int r, int m);
+    string calculateGrade();
+    void displayInfo();
+};
+void Student::setDetails(string n, string d, int r, int m) {
+    name = n;
+    degree = d;
+    rollNumber = r;
+    marks = m;
+}
+string Student::calculateGrade()  {
+    if (marks >= 90)
+        return "A+";
+    else if (marks >= 80)
+        return "A";
+    else if (marks >= 70)
+        return "B";
+    else if (marks >= 60)
+        return "C";
+    else
+        return "D";
+}
+void Student::displayInfo() {
+    cout << "\nName: " << name << endl;
+    cout << "Degree: " << degree << endl;
+    cout << "Roll Number: " << rollNumber << endl;
+    cout << "Marks: " << marks << endl;
+    cout << "Grade: " << calculateGrade() << endl;
+}
+
+int main() {
+    Student s;
+    string name, degree;
+    int rollNumber, marks;
+
+    cout << "Enter student name: ";
+    cin>>name;
+
+    cout << "Enter degree: ";
+    cin>>degree;
+
+    cout << "Enter roll number: ";
+    cin >> rollNumber;
+
+    cout << "Enter marks (0-100): ";
+    cin >> marks;
+
+    s.setDetails(name, degree, rollNumber, marks);
+    s.displayInfo();
+
+    return 0;
+}
+
+
+sumPrimeArray
+
+6) John is working in a bank. He has created account details transaction in a file and protected it with a password. He sent the file to his manager for review. The file is protected with a password. The password is the sum of prime numbers. Write a class to generate the password.
+
+Class and Methods:
+
+· Create a class named PrimePassword.
+
+· Include a method named sumPrimeArray that takes an array and its size as parameters and returns an integer, which is the sum of prime numbers.
+
+Input and Output Format:
+
+· First line of input consists of n, the number of elements.
+
+· Next n lines correspond to the array elements.
+
+· Output consists of an integer, which is the sum.
+
+Conditions:
+
+1. Print "Invalid array size" when the size of the array is a negative number and terminate the program.
+
+2. Print "Invalid input" when there is any negative number available in the input array and terminate the program.
+
+3. Print 0, when there are no prime numbers in a given input array.
+
+
+Sample Input 1:
+
+5
+
+1
+
+2
+
+3
+
+4
+
+5
+
+Sample Output 1:
+
+10
+
+Sample Input 2:
+
+3
+
+4
+
+8
+
+9
+
+Sample Output 2:
+
+0
+
+A)#include <iostream>
+using namespace std;
+class PrimePassword {
+public:
+    bool isPrime(int num) {
+        if (num <= 1) return false;
+        for (int i = 2; i * i <= num; ++i) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
+
+    int sumPrimeArray(int arr[], int size) {
+        int sum = 0;
+        for (int i = 0; i < size; ++i) {
+            if (isPrime(arr[i])) {
+                sum += arr[i];
+            }
+        }
+        return sum;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    if (n < 0) {
+        cout << "Invalid array size" << endl;
+        return 0;
+    }
+
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+        if (arr[i] < 0) {
+            cout << "Invalid input" << endl;
+            return 0;
+        }
+    }
+
+    PrimePassword pp;
+    int result = pp.sumPrimeArray(arr, n);
+    cout << result << endl;
+
+    return 0;
+}
+
+
+
+avgOddKeyValue
+
+7) Given an input array, the first index represents the key and the second index represents the value, and so on. Write a class to find out the average of all values whose keys are odd numbers.
+
+Class and Methods:
+
+· Create a class named OddKeyAverage.
+
+· Include a method named avgOddKeyValues that takes an array and its size as parameters and returns an integer, which is the average of values whose keys are odd numbers.
+
+Input and Output Format:
+
+· The first line of input consists of n, the number of elements.
+
+· The next n lines correspond to the elements of the array.
+
+· The output consists of an integer, which is the average of all values whose keys are odd numbers.
+
+Conditions:
+
+1. Print "Invalid array size" when the size of the array is a negative number and terminate the program.
+
+2. Print "Invalid input" when there is any negative number available in the input array and terminate the program.
+
+Sample Input 1:
+
+8
+
+1
+
+3
+
+2
+
+4
+
+3
+
+16
+
+4
+
+25
+
+Sample Output 1:
+
+9
+
+Sample Input 2:
+
+-3
+
+A)#include <iostream>
+using namespace std;
+
+class OddKeyAverage {
+public:
+    int avgOddKeyValues(int arr[], int size) {
+        int sum = 0, count = 0;
+
+        for (int i = 0; i < size - 1; i += 2) {
+            int key = arr[i];
+            int value = arr[i + 1];
+
+            if (key % 2 != 0) {
+                sum += value;
+                count++;
+            }
+        }
+
+        if (count == 0) return 0;
+        return sum / count;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    if (n < 0) {
+        cout << "Invalid array size" << endl;
+        return 0;
+    }
+
+    if (n % 2 != 0) {
+        cout << "Invalid input" << endl;
+        return 0;
+    }
+
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+        if (arr[i] < 0) {
+            cout << "Invalid input" << endl;
+            return 0;
+        }
+    }
+
+    OddKeyAverage oka;
+    int result = oka.avgOddKeyValues(arr, n);
+    cout << result << endl;
+
+    return 0;
+}
+
+
+8)Product of MaxMin Element
+
+8) Design and implement a C++ class named ArrayProcessor. This class should contain a public method named productOfMaxMin.
+
+The productOfMaxMin method must:
+
+· Accept two arguments: an integer array (int arr[]) and an integer representing the size of the array (int size).
+
+· Return an integer representing the product of the maximum and minimum elements within the input array.
+
+· Perform input validation:
+
+o If size is negative or zero, or if any element within the arr array is negative, the method should output the string "Invalid Input" to standard output (std::cout) and terminate the program execution.
+
+· Assume the maximum size of the input array is 20.
+
+The main function of the program should:
+
+· Read an integer n from standard input, representing the size of the array.
+
+· Read n integers from standard input, representing the elements of the array.
+
+· Create an object of the ArrayProcessor class.
+
+· Call the productOfMaxMin method using the created object, passing the input array and its size as arguments.
+
+· If the input is valid, print the integer returned by the productOfMaxMin method to standard output.
+
+Input Format:
+
+· The first line of input will contain an integer n, representing the size of the array.
+
+· The following n lines will each contain an integer, representing an element of the array.
+
+Output Format:
+
+· If the input is valid, the program should output a single integer, representing the product of the maximum and minimum elements in the array.
+
+· If the input is invalid, the program should output the string "Invalid Input" and terminate.
+
+Constraints:
+
+· The maximum size of the array is 20.
+
+· All array elements and the size of the array are integers.
+
+Example Input 1:
+
+8
+
+2
+
+12
+
+3
+
+4
+
+6
+
+8
+
+10
+
+9
+
+Example Output 1:
+
+24
+
+Example Input 2:
+
+-5
+
+Example Output 2:
+
+Invalid Input
+
+Example Input 3:
+
+5
+
+23
+
+2
+
+-200
+
+Example Output 3:
+
+Invalid Input
+
+A)#include <iostream>
+using namespace std;
+
+class ArrayProcessor {
+public:
+    int productOfMaxMin(int arr[], int size) {
+        if (size <= 0 || size > 20) {
+            cout << "Invalid Input" << endl;
+            exit(0);
+        }
+
+        int min = arr[0];
+        int max = arr[0];
+
+        for (int i = 0; i < size; i++) {
+            if (arr[i] < 0) {
+                cout << "Invalid Input" << endl;
+                exit(0);
+            }
+            if (arr[i] < min) min = arr[i];
+            if (arr[i] > max) max = arr[i];
+        }
+
+        return min * max;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    if (n <= 0 || n > 20) {
+        cout << "Invalid Input" << endl;
+        return 0;
+    }
+
+    int arr[20];
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    ArrayProcessor obj;
+    int result = obj.productOfMaxMin(arr, n);
+    cout << result << endl;
+
+    return 0;
+}
+
+
+9)registerAccountNumbers 9) Given an array in which the elements are in xxxyy format, where the first xxx digits represent the Branch code and the yy represents the account ID, find out the number of accounts in the given branch code.
+
+Class and Methods:
+
+· Create a class named BranchAccount.
+
+· Include a constructor to initialize the class with the size of the array, the account numbers, and the branch code.
+
+· Include a method named registerAccountNumbers that takes the size, account numbers, and branch code as parameters and returns the number of accounts in the given branch code.
+
+Input and Output Format:
+
+· The first input n corresponds to the size of the array.
+
+· The next n lines correspond to the elements of the array.
+
+· The last line of the input corresponds to the branch code.
+
+· The output corresponds to the number of accounts in the given branch code.
+
+· If the given branch code is not available, print 0.
+
+Conditions:
+
+1. Print "Invalid array size" when the size of the array is a negative number and terminate the program.
+
+2. Print "Invalid account Number" when there is any negative number available in the input array and terminate the program.
+
+3. Print "Invalid branch code" when the branch code is a negative number and terminate the program.
+
+Sample Input 1:
+
+6
+
+12345
+
+12370
+
+12324
+
+13355
+
+13333
+
+14575
+
+123
+
+Sample Output 1:
+
+3
+
+Sample Input 2:
+
+-6
+
+Sample Output 2:
+
+Invalid array size
+
+
+A)#include <iostream>
+using namespace std;
+
+class BranchAccount {
+private:
+    int size;
+    int* accountNumbers;
+    int branchCode;
+
+public:
+    BranchAccount(int s, int arr[], int code) {
+        size = s;
+        accountNumbers = arr;
+        branchCode = code;
+    }
+
+    int registerAccountNumbers(int size, int arr[], int code) {
+        if (size < 0) {
+            cout << "Invalid array size" << endl;
+            exit(0);
+        }
+
+        if (code < 0) {
+            cout << "Invalid branch code" << endl;
+            exit(0);
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (arr[i] < 0) {
+                cout << "Invalid account Number" << endl;
+                exit(0);
+            }
+        }
+
+        int count = 0;
+        for (int i = 0; i < size; i++) {
+            int currentBranch = arr[i] / 100;
+            if (currentBranch == code) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    if (n < 0) {
+        cout << "Invalid array size" << endl;
+        return 0;
+    }
+
+    int arr[100]; 
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+        if (arr[i] < 0) {
+            cout << "Invalid account Number" << endl;
+            return 0;
+        }
+    }
+
+    int branchCode;
+    cin >> branchCode;
+
+    if (branchCode < 0) {
+        cout << "Invalid branch code" << endl;
+        return 0;
+    }
+
+    BranchAccount obj(n, arr, branchCode);
+    int result = obj.registerAccountNumbers(n, arr, branchCode);
+    cout << result << endl;
+
+    return 0;
+}
+
+
+10)Create a C++ program that processes an array containing the ages of employees. The program should include a class EmployeeAges with the following specifications:
+
+1. Constructor:
+
+· The constructor should take the number of elements n and the array of ages as input.
+
+· If n is negative, print "Invalid array size" and terminate the program.
+
+· If any age is less than 21 or greater than 60, print "Invalid Employee Age" and terminate the program.
+
+· If any age is negative, print "Invalid input" and terminate the program.
+
+2. Methods:
+
+· int countEmployeesOver50(): This method should return the number of employees whose age is greater than 50.
+
+· double averageAgeBetween22And50(): This method should return the average age of employees whose age is between 22 and 50 (inclusive).
+
+3. Input and Output Format:
+
+· The first line of input consists of n, the number of elements.
+
+· The next n lines correspond to the array elements.
+
+· The output consists of an integer, which is the number of employees greater than 50, and the average age of employees between 22 and 50.
+
+Sample Input 1:
+
+5
+
+21
+
+22
+
+30
+
+52
+
+55
+
+Sample Output 1:
+
+2
+
+24
+
+Sample Input 2:
+
+6
+
+50
+
+-36
+
+Sample Output 2:
+
+Invalid input
+
+
+A)#include <iostream>
+using namespace std;
+
+class EmployeeAges {
+private:
+    int* ages;
+    int size;
+
+public:
+    EmployeeAges(int n, int arr[]) {
+        if (n < 0) {
+            cout << "Invalid array size" << endl;
+            exit(0);
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (arr[i] < 0) {
+                cout << "Invalid input" << endl;
+                exit(0);
+            }
+            if (arr[i] < 21 || arr[i] > 60) {
+                cout << "Invalid Employee Age" << endl;
+                exit(0);
+            }
+        }
+
+        size = n;
+        ages = arr;
+    }
+
+    int countEmployeesOver50() {
+        int count = 0;
+        for (int i = 0; i < size; i++) {
+            if (ages[i] > 50) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    double averageAgeBetween22And50() {
+        int sum = 0, count = 0;
+        for (int i = 0; i < size; i++) {
+            if (ages[i] >= 22 && ages[i] <= 50) {
+                sum += ages[i];
+                count++;
+            }
+        }
+        if (count == 0) return 0;
+        return sum / (double)count;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    if (n < 0) {
+        cout << "Invalid array size" << endl;
+        return 0;
+    }
+
+    int arr[100]; // assuming max 100 employees
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    EmployeeAges emp(n, arr);
+    cout << emp.countEmployeesOver50() << endl;
+    cout << (int)emp.averageAgeBetween22And50() << endl;
+
+    return 0;
+}

@@ -1,0 +1,220 @@
+1) Create the directory Capestone_Prj in home locations  and Use a single shell command to create three directories named  Project_Doc, 
+ 	Project_Share, and Backup_project in Project home directory.
+
+A)mkdir Capestone_prj
+  cd Capestone_prj 
+  mkdir project_Doc Project_Share Backup_project  
+
+mkdir project_Doc Project_Share Backup_project  
+
+
+2)Use a single shell command to create three directories named  "~/Capestone_Prj/Project_Doc/Module1", "Capestone_Prj/Project_Doc/Module2", "Capestone_Prj/Project_Doc/Module3" in your home directory.
+
+A)mkdir -p ~/Capestone_prj/project_Doc/Module{1,2,3}   
+  
+
+
+3) Go to the /home/user1/Capestone_Prj/Project_Doc/Module1 and create the hierarchy directory structure "forntend", "backend/dbms/sqlscript",     	"~/Capestone_Prj/Module2/Frontend", "~/Capestone_Prj/Project_Doc/Module2/backend/dbms/sqlscript" using single shell command.
+
+A)mkdir -p /home/Diyyala/Capestone_prj/project_Doc/Module1/{fr
+  ontend,backened/dbms/sqlscript/dbcode.txt} ~/Capestone_prj/project_Do
+  c/Module2/frontend ~/Capestone_prj/project_Doc/Module2/backend/dbms/s
+  qlscript/dbcode.txt 
+
+4) Go to the /home/user1/Capestone_Prj/Project_Doc/Module3 and create the directory the  "frontend" and "backend"  using single shell command.
+
+A)mkdir -p /home/Diyyala/Capestone_prj/project_Doc/Module3/{frontend,backend}
+
+5) Go to the home directory, using the single sequence of shell commands to create directory Project_Doc/Testing/excel  and create empty file test1.txt, text2.txt  and text3.txt
+
+A)mkdir -p ~/Capestone_prj/project_Doc/Testing/excel2;cd ~/Capestone_prj/project_Doc/Testing/excel2;touch test{1,2,3}.txt
+
+
+6)  Navigate to the /home/user1/Capestone_Prj and create the hierarchy directory structure "Project_Share/cpp" and create file multiple file inside directory "Project_Share/cpp" as codev1.txt,codev2.txt,codev3.txt,codev4.txt,codev5.txt using the single sequence of shell commands
+
+A)mkdir ~/Capestone_prj/Project_Share/cpp1;cd ~/Capestone_prj/
+  Project_Share/cpp1;touch code{v1,v2,v3,v4,v5}.txt 
+
+7)Go to the  /home/user1/Capestone_Prj/Project_Doc create the directory "doc" and "manual" and create file "doc/projinfo.txt" with helps of  echo and i/o directional with  following content 
+   "Unix Based Operating Systems
+	1) Oracle Solaris
+	2) IBM AIX
+	3) HP-UX
+	4) FreeBSD
+	5) macOS"
+
+A)mkdir -p /home/Diyyala/Capestone_prj/project_Doc/{doc,manual
+};cd ~/Capestone_prj/project_Doc;touch doc/projinfo.txt;echo "unix ba
+sed os                                                               
+1)oracle solaris                                                     
+2)ibm aix                                                            
+3)hp-ux                                                              
+4)freebsd                                                            
+5)macos" >projinfo.txt 
+
+8) Go to the  /home/user1/Capestone_Prj/Project_Doc  create file "doc/projtechinfo.txt" with helps of  cat and i/o directional with following content 
+	" Linux Distro Family
+		1) Debain
+		2) Fedora
+		3) SUSE "
+
+A)cd ~/Capestone_prj/project_Doc/doc;touch doc/projtechinfo.tx
+t;echo "Linux Distro Family
+1)Debain
+2)Fedora
+3)SUSE" > projtechinfo.txt
+
+9) Go to the  /home/user1/Capestone_Prj/Project_Doc  create file "manual/ebook1.txt" with helps of  cat and i/o directional with following content 
+	"Linux Popular Distro used in Data Center Server
+		1) Red Hat Enterprise Linux (RHEL)
+		2) Ubuntu Server
+		3) Debian, 
+		4) CentOS, 
+		5) OpenSUSE, 
+		6) Fedora Server "
+
+A)cd ~/Capestone_prj/project_Doc/manual;touch ebook1.txt;echo 
+"linux popular distro used in data center server
+> 1)rhel                                                             
+> 2)ubuntu server                                                    
+> 3)debian                                                           
+> 4)centos                                                           
+> 5)opensuse                                                         
+> 6)fedors server">ebook1.txt 
+
+10) Go to the  /home/user1/Capestone_Prj/Project_Doc  create file "manual/ebook2.txt" with helps of  cat and i/o directional with following content 
+    " File System support by Unix/Linux
+	1) ext 
+	2) ext2 
+	3) ext3 
+	4) ext4 
+	5) XFS 
+	6) Btrfs 
+	7) ZFS
+	8) F2FS "
+
+A)cd ~/Capestone_prj/project_Doc/manual;touch ebook2.txt;echo 
+"file system support bu unix/linux                                   
+> 1)ext
+> 2)ext2
+> 3)ext3
+> 4)ext4
+> 5)XFS
+> 6)Btrfs
+> 7)ZFS                                                              
+> 8)F2FS">ebook2.txt 
+
+11)Go to the Capestone_Prj/Project_Doc/doc directory location  and change the name of the projinfo.txt file to unix_os.txt.
+
+A)cd ~/Capestone_prj/project_Doc;mv prjinfo.txt unix_os.txt
+
+12) Navigate to the Capestone_Prj/Project_Doc/doc location and change the name of the projtechinfo.txt file into linux_distro.txt file 
+
+A)cd ~/Capestone_prj/project_Doc/doc;mv projtechinfo.txt linux_distro.txt
+
+13) Navigate to the Capestone_Prj/Project_Doc/manual location and perform the following task.
+
+
+		i) copy the ebook1.txt and paste into the codev1.txt  
+
+		A)cd ~/Capestone_prj/project_Doc/manual
+		  cp ebook1.txt codev1.txt
+
+		ii) copy the ebook2.txt and paste into the codev2.txt
+
+		A)cd ~/Capestone_prj/project_Doc/manual
+		  cp ebook2.txt codev2.txt
+
+cd ~/Capestone_prj/project_Doc/manual;cp ebook2.txt ~/Capest
+one_prj/Project_Share/cpp1/codev2.txt 
+
+14)Go to the home location and preform the task create copy of the unix_os.txt file from the capestone_Prj/Project_Doc/doc location  into backup_project
+
+A)cd ~/Capestone_prj/project_Doc;cp unix_os.txt ~/Capestone_prj/Backup_project
+		
+15) Go to the ~/Capestone_Prj/backup_project and preform the task of copy of the linux_distro.txt file from the capestone_Prj/Project_Doc/doc location  into current location  
+
+A)  cd ~/Capestone_prj/Backup_project;cp ~/Capestone_prj/project_Doc/doc/linux_distro.txt .  
+
+16)Navigate to the Capestone_Prj/Project_Doc/manual,  Create the ebook3.txt file using ViM editor with the following content
+	"Vim, short for Vi IMproved, is a highly configurable and powerful text editor designed to enable efficient text editing. Vim is widely used by programmers, system administrators, and anyone who spends a significant amount of time working in the terminal"
+	Use the Vim to Yank and Paste the paragraph for 3 time.
+
+
+A)cd/home/Diyyala/Capestone_prj/project_Doc/manual	
+touch ebook3.txt 
+vim ebook3.txt
+  cat ebook3.txt  
+
+17) Navigate to the ~/Capestone_Prj/Project_Doc/doc, Copy the specify the source file ebook3.txt and the destination to current locations with vim_doc.csv
+
+A)cd ~/Capestone_prj/project_Doc/doc && cp ~/Capestone_prj/project_Doc/Manual/ebook3.txt vim_doc.csv
+
+18)Navigate to the ~/Capestone_Prj/backup_project, Copy the specify the source file ~/Capestone_Prj/Project_Doc/manual/ebook1.txt and vim_doc.csv to  destination of current locations
+
+A)cd ~/Capestone_Prj/Backup_project && cp ~/Capestone_Prj/Project_Doc/manual/ebook1.txt . && cp ~/Capestone_Prj/Project_Doc/doc/vim_doc.csv .
+
+
+19)Navigate to the Capestone_Prj/Project_Doc/doc, Create the shell_type.txt file using ViM editor with the following content
+	" Most popular Linux/Unix shell interpreters
+		1) sh (Bourne Shell)
+		2) Bash (Bourne Again Shell)
+		3) Zsh (Z Shell)
+		4) ksh (Korn Shell)
+		5) csh (C Shell)
+		6) tcsh (TENEX C Shell)"
+
+A)cd ~/Capestone_prj/project_Doc/doc;touch shell_type.txt 
+vim shell_type.txt   
+	" Most popular Linux/Unix shell interpreters
+		1) sh (Bourne Shell)
+		2) Bash (Bourne Again Shell)
+		3) Zsh (Z Shell)
+		4) ksh (Korn Shell)
+		5) csh (C Shell)
+		6) tcsh (TENEX C Shell)"                                       
+cat shell_type.txt
+
+20)Navigate to the Capestone_Prj/Project_Doc/doc, Create the winfile.txt file using ViM editor with the following content
+" File system support by Windows OS 
+	1) NTFS
+	2) FAT32 "
+
+A)cd ~/Capestone_prj/project_Doc/doc;touch winfile.txt        
+-sh-4.2$ vim winfile.txt
+	" File system support by Windows OS 
+	1) NTFS
+	2) FAT32 "                                             
+-sh-4.2$ cat winfile.txt
+"File system support by windows os                                                                                                          
+        1)NTFS                                                                                                                              
+        2)FAT32 "        
+
+
+21)Go to the  ~/Capestone_Prj/backup_prj location and preform the task by single sequence of commands as
+			create directory back_doc_txt , change directory into back_doc_txt , perform of copy all .txt file to current destination  
+
+A)cd ~/Capestone_prj/Backup_project && mkdir back_doc_txt && cd back_doc_txt && cp ../*.txt . 
+
+22)Go to the  ~/Capestone_Prj/Project_Doc/doc and preform the task by single sequence of commands as
+create directory ~/Capestone_Prj/Backup_project/back_doc_csv, perform of copy all .csv file from  current location to destination  ~/Capestone_Prj/Backup_project/back_doc_csv  
+
+A)mkdir -p ~/Capestone_prj/Backup_project/back_doc_csv && cp ~/Capestone_prj/project_Doc/doc/*.csv ~/Capestone_prj/Backup_project/back_doc_csv 
+
+23)Go to the  ~/Capestone_Prj and preform the task of copy the Project_Doc directory include all its files and subdirectory to destination  	~/Capestone_Prj/Backup_project/
+
+A)cp -r ~/Capestone_prj/project_Doc ~/Capestone_prj/Backup_project
+
+24) Navigate to the Capestone_Prj/Project_Doc perform the task of copy all the .txt file from subdirectory to destination  ~/Capestone_Prj/Backup_project/
+
+A)cp -r ~/Capestone_prj/project_Doc ~/Capestone_prj/Backup_project
+
+25) Navigate to the Capestone_Prj/Project_Doc  perform the task of compress the manual directory to destination  ~/Capestone_Prj/Backup_project/ 
+
+A)tar -zcvf ~/Capestone_prj/backup_project/manual.tar.gz -C ~/Capestone_prj/project_doc manual
+
+
+
+
+
+
